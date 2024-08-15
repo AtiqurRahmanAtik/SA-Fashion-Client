@@ -1,7 +1,17 @@
+import { useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../Providers/AuthProvider";
+import Swal from "sweetalert2";
 
 const Register = () => {
+
+    const {user,singUp,  googleLogin} = useContext(AuthContext);
+   
+    const navigate = useNavigate();
+    // const location = useLocation();
+    
+    // const from = location.state?.from?.pathname || "/";
 
     const handleRegister= (e)=>{
         e.preventDefault();
@@ -14,6 +24,27 @@ const Register = () => {
         const RegisterInfo = {name, email, password,photo};
         console.log(RegisterInfo);
 
+
+        // SingUp
+        singUp(email,password)
+        .then(result=>{
+        console.log(result)
+            
+            Swal.fire({
+                   position: "top-end",
+                   icon: "success",
+                   title: "Register Successful",
+                   showConfirmButton: false,
+                   timer: 1500
+                 });
+
+                 navigate('/');
+               })
+               .catch(error=>{
+                 console.log(error);
+               })
+
+
     }
 
 
@@ -21,8 +52,16 @@ const Register = () => {
         googleLogin()
         .then(result=>{
             console.log(result.user);
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Google Login Successful",
+                showConfirmButton: false,
+                timer: 1500
+              });
 
-              navigate(from, { replace: true });
+            navigate('/')
+            //   navigate(from, { replace: true });
         })
         .catch(error=> {
             console.log(error);
@@ -61,14 +100,7 @@ const Register = () => {
 
         </div>
 
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text">PhotURL</span>
-          </label>
-
-          <input type="text" placeholder="photo" name='photo' className="input input-bordered" required />
-
-        </div>
+    
 
         <div className="form-control">
           <label className="label">

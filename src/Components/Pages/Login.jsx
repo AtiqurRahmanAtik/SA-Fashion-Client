@@ -1,9 +1,13 @@
+import { useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../Providers/AuthProvider";
+import Swal from "sweetalert2";
 
 const Login = () => {
 
-
+    const {singIn}= useContext(AuthContext);
+    const navigate = useNavigate();
 
     const handleLogin = (e)=> {
         e.preventDefault();
@@ -14,9 +18,51 @@ const Login = () => {
         const LoginInfo = { email, password};
         console.log(LoginInfo);
 
+        singIn(email,password)
+        .then(result=>{
+            console.log(result)
+                
+                Swal.fire({
+                       position: "top-end",
+                       icon: "success",
+                       title: "Register Successful",
+                       showConfirmButton: false,
+                       timer: 1500
+                     });
+    
+                     navigate('/');
+                   })
+                   .catch(error=>{
+                     console.log(error);
+                   })
+    
+    
+        }
+    
+
+        const handleGoogle = ()=>{
+            googleLogin()
+            .then(result=>{
+                console.log(result.user);
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Google Login Successful",
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+    
+                navigate('/')
+                //   navigate(from, { replace: true });
+            })
+            .catch(error=> {
+                console.log(error);
+            })
+        }
+
 
        
-    }
+    
 
     return (
         <div>
@@ -52,7 +98,7 @@ const Login = () => {
         </div>
       </form>
 
-      <button className="btn w-2/4 mx-auto"> <FcGoogle className="text-4xl"></FcGoogle> <span className="text-4xl">Google</span> </button>
+      <button  onClick={handleGoogle} className="btn w-2/4 mx-auto"> <FcGoogle className="text-4xl"></FcGoogle> <span className="text-4xl">Google</span> </button>
 
       <h1>Do Have An Account? please  <Link to='/register'> <button className="btn btn-link">Register</button></Link></h1>
     </div>

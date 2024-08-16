@@ -25,6 +25,7 @@ export default [
     },
     rules: {
       "env": {
+        browser: true,
         "node": true,
       },
       ...js.configs.recommended.rules,

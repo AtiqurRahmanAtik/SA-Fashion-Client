@@ -40,7 +40,7 @@ const NavigationBar = () => {
     
   <NavLink >  <li className="text-2xl font-medium "><a>About</a></li></NavLink>
   
-    <li className="text-2xl font-medium "><a>Item 3</a></li>
+    {/* <li className="text-2xl font-medium "><a>Item 3</a></li> */}
     </>
 
 
@@ -71,7 +71,7 @@ const NavigationBar = () => {
        {Pages}
       </ul>
     </div>
-    <a className="btn btn-ghost text-xl">SAFashion</a>
+    <a className="btn btn-ghost text-2xl"><span className="text-orange-600">SA</span>Gadgets</a>
   </div>
 
 

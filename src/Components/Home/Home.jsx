@@ -1,14 +1,41 @@
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import Products from "../Products/Products";
+import Dropdown from 'react-multilevel-dropdown';
+
 
 const Home = () => {
     const [itemPerPage, setItemPerPage] = useState(8);
     const [currentPage, setCurrentPage ] = useState(1);
+    const [filter, setFilter] = useState('');
+    const [sort,setSort] = useState('');
     const [count, setCount]= useState(0);
-    
+    const [search,setSearch]= useState('');
+
+    const [ asc, setAsc] = useState(true);
    const [item, setItem]= useState([]);
     // console.log(item);
+
+    const [searching,SetSearching] = useState('');
+
+
+    const axiosSecure = useAxiosSecure()
+   
+
+    // for higt to low button
+    useEffect(()=>{
+
+      axiosSecure.get(`/product?sort=${asc ? 'asc' : 'des'}&searching=${searching}`)
+      .then(res=> setItem(res.data))
+      
+      .catch(err=>{
+        console.log(err);
+      })
+
+    },[asc,searching])
+
+
+
 
 
     const numberOfPages = Math.ceil(count / itemPerPage);
@@ -17,7 +44,7 @@ const Home = () => {
 
     useEffect(()=>{
       const axiosSecure = useAxiosSecure();
-      axiosSecure.get(`/all-product?page=${currentPage}&size=${itemPerPage}`)
+      axiosSecure.get(`/all-product?page=${currentPage}&size=${itemPerPage}&$filter=${filter}&sort=${sort}&search=${search}`)
       .then(res=>{
          setItem(res.data);
         
@@ -26,7 +53,7 @@ const Home = () => {
           console.log(error);
       })
 
-    },[currentPage,itemPerPage])
+    },[currentPage,filter,itemPerPage,sort,search])
 
 
 
@@ -53,8 +80,9 @@ const Home = () => {
     // handleSearching
     const handleSearch = (e)=>{
         e.preventDefault();
-        const search = e.target.name.value;
-        console.log(search)
+        const text = e.target.name.value;
+        
+        SetSearching(text);
     }
     
 
@@ -64,11 +92,27 @@ const Home = () => {
       setCurrentPage(val);
     }
 
+
+    // handleReset Button 
+    const handleReset = ()=>{
+      setFilter('');
+      setSort('');
+    }
+    
+
+    // handleSearch
+    const handleSearchButton = (e)=>{
+      e.preventDefault();
+      const text = e.target.search.value;
+      console.log(text);
+    }
+
+
     return (
         <div>
-          <h1 className="text-3xl font-bold text-center">Discover Our Products : </h1>
+        
 
-          {/* searching */}
+          {/* searching button*/}
           <form onSubmit={handleSearch}>
           
             <input type="text" name="name" placeholder="Type here"
@@ -83,36 +127,32 @@ const Home = () => {
         <div className='flex flex-col md:flex-row justify-center items-center gap-5 '>
           <div>
             <select
+            onChange={e=> setFilter(e.target.value)}
               name='category'
               id='category'
+              value={filter}
               className='border p-4 rounded-lg'
             >
               <option value=''>Filter By Category</option>
-              <option value='Web Development'>Web Development</option>
-              <option value='Graphics Design'>Graphics Design</option>
-              <option value='Digital Marketing'>Digital Marketing</option>
+              <option value='TechWave'>BrandName</option>
+
+              <option value='Graphics Design'>Category </option>
+              <option value='Digital Marketing'> Price Range</option>
             </select>
           </div>
 
-          <form>
-            <div className='flex p-1 overflow-hidden border rounded-lg    focus-within:ring focus-within:ring-opacity-40 focus-within:border-blue-400 focus-within:ring-blue-300'>
-              <input
-                className='px-6 py-2 text-gray-700 placeholder-gray-500 bg-white input input-bordered input-success outline-none focus:placeholder-transparent'
-                type='text'
-                name='search'
-                placeholder='Search Here'
-                aria-label='Enter Job Title'
-              />
 
-              <button className='px-1 ml-1 md:px-4 py-3 text-sm font-medium tracking-wider text-gray-100 uppercase transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:bg-gray-600 focus:outline-none'>
-                Search
-              </button>
-            </div>
-          </form>
+        
+
+          {/* sort  */}
           <div>
             <select
-              name='category'
-              id='category'
+             onChange={e=> {setFilter(e.target.value)
+              setCurrentPage(1)
+             }}
+             name='sort'
+             id='sort'
+             value={sort}
               className='border p-4 rounded-md'
             >
               <option value=''>Sort By Deadline</option>
@@ -120,8 +160,19 @@ const Home = () => {
               <option value='asc'>Ascending Order</option>
             </select>
           </div>
-          <button className='btn'>Reset</button>
+          <button onClick={handleReset} className='btn'>Reset</button>
         </div>
+
+
+        {/* price button  */}
+        
+        <div className="my-2">
+          <button onClick={()=> setAsc( !asc)}
+          className="btn btn-success text-white text-2xl uppercase">
+         { asc ? 'Price : High to low' : 'Price : Low to High' }
+            </button>
+        </div>
+
         <div className='grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {/* {jobs.map(job => (
             <JobCard key={job._id} job={job} />
@@ -130,6 +181,8 @@ const Home = () => {
       </div>
 
         
+      <h1 className="text-3xl font-bold text-center my-5">Discover Our Products  </h1>
+
         {/* map here all product */}
         <div className="grid gap-3 my-9 grid-rows-1 md:grid-cols-2 lg:grid-cols-3 ">
             {

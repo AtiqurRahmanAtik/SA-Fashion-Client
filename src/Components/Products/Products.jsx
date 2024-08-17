@@ -8,7 +8,7 @@ const Products = ({item}) => {
     return (
         <div>
             
-            <div class="max-w-xs overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
+            <div class="max-w-xs hover:bg-blue-300  overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
     <div class="px-4 py-2">
         <h1 class="text-xl font-bold text-gray-800 uppercase dark:text-white">{ProductName}</h1>
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{Description}</p>
@@ -26,7 +26,8 @@ const Products = ({item}) => {
     <div class="flex items-center justify-between px-4 py-2 ">
         
         <h1 class="text-lg font-semibold ">${Ratings}</h1>
-        <h1 class="text-lg font-semibold ">{ProductCreationDateTime}</h1>
+        <h1 class="text-lg font-semibold ">{new Date(ProductCreationDateTime).toISOString().split('T')[0]}</h1>
+
        
     </div>
 

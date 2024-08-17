@@ -42,6 +42,8 @@ const Home = () => {
     const pages = [...Array(numberOfPages).keys()].map((num)=>num + 1);
 
 
+
+    // concetual session 
     useEffect(()=>{
       const axiosSecure = useAxiosSecure();
       axiosSecure.get(`/all-product?page=${currentPage}&size=${itemPerPage}&$filter=${filter}&sort=${sort}&search=${search}`)
@@ -83,6 +85,7 @@ const Home = () => {
         const text = e.target.name.value;
         
         SetSearching(text);
+       
     }
     
 
@@ -105,6 +108,7 @@ const Home = () => {
       e.preventDefault();
       const text = e.target.search.value;
       console.log(text);
+      
     }
 
 

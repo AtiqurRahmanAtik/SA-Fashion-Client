@@ -49,7 +49,7 @@ const AuthProvider = ({children}) => {
            
             setUser(currenUser);
             console.log(currenUser);
-            setLoading(true);
+            setLoading(false);
 
         });
         return () => {

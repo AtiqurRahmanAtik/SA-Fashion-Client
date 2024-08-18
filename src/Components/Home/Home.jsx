@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import Products from "../Products/Products";
 import Dropdown from 'react-multilevel-dropdown';
+import { useQuery } from "@tanstack/react-query";
 
 
 const Home = () => {
@@ -17,7 +18,7 @@ const Home = () => {
     // console.log(item);
 
     const [searching,SetSearching] = useState('');
-
+    const [emptyProduct, SetEmptyProduct] = useState('');
 
     const axiosSecure = useAxiosSecure()
    
@@ -85,13 +86,18 @@ const Home = () => {
         const text = e.target.name.value;
         
         SetSearching(text);
+        
+       if(!text){
+
+         SetEmptyProduct('Not available this product');
+       }
        
     }
     
 
     // handle  of pagination button
     const handlePaginationButton = (val)=>{
-      console.log(val);
+      // console.log(val);
       setCurrentPage(val);
     }
 
@@ -122,7 +128,7 @@ const Home = () => {
             <input type="text" name="name" placeholder="Type here"
         className="input input-bordered input-success w-full max-w-xs my-3" />
 
-            <input className="btn bg-green-400 ml-2" type="submit" value="submit" />
+            <input className="btn bg-green-400 hover:bg-orange-400 ml-2" type="submit" value="submit" />
           </form>
 
 
@@ -137,8 +143,8 @@ const Home = () => {
               value={filter}
               className='border p-4 rounded-lg'
             >
-              <option value=''>Filter By Category</option>
-              <option value='TechWave'>BrandName</option>
+              <option value=''>Filter By Category BrandName</option>
+              <option value='Smartphone'>Smartphone</option>
 
               <option value='Graphics Design'>Category </option>
               <option value='Digital Marketing'> Price Range</option>
@@ -151,7 +157,7 @@ const Home = () => {
           {/* sort  */}
           <div>
             <select
-             onChange={e=> {setFilter(e.target.value)
+             onChange={e=> {setSort(e.target.value)
               setCurrentPage(1)
              }}
              name='sort'
@@ -164,7 +170,7 @@ const Home = () => {
               <option value='asc'>Ascending Order</option>
             </select>
           </div>
-          <button onClick={handleReset} className='btn'>Reset</button>
+          <button onClick={handleReset} className='btn '>Reset</button>
         </div>
 
 
@@ -172,7 +178,7 @@ const Home = () => {
         
         <div className="my-2">
           <button onClick={()=> setAsc( !asc)}
-          className="btn btn-success text-white text-2xl uppercase">
+          className="btn bg-green-500 text-black hover:bg-orange-400 text-2xl uppercase">
          { asc ? 'Price : High to low' : 'Price : Low to High' }
             </button>
         </div>
@@ -185,8 +191,9 @@ const Home = () => {
       </div>
 
         
-      <h1 className="text-3xl font-bold text-center my-5">Discover Our Products  </h1>
+      <h1 className="text-5xl font-bold text-center my-5 text-green-600">Our Latest Products </h1>
 
+            <h1 className=" text-3xl text-red-400 font-bold text-center my-2">{emptyProduct}</h1>
         {/* map here all product */}
         <div className=" grid gap-3 my-9 grid-rows-1 md:grid-cols-2 lg:grid-cols-3 ">
             {

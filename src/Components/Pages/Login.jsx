@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 
 const Login = () => {
 
-    const {singIn}= useContext(AuthContext);
+    const {singIn,googleLogin}= useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleLogin = (e)=> {

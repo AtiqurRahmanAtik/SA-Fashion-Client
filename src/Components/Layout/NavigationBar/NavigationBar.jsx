@@ -3,7 +3,7 @@ import { Link, NavLink, useNavigate,   } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
 import Swal from "sweetalert2";
 import { useContext } from "react";
-
+import icon from "/src/assets/Image/shopping-online.png"
 
 const NavigationBar = () => {
 
@@ -71,7 +71,12 @@ const NavigationBar = () => {
        {Pages}
       </ul>
     </div>
-    <a className="btn btn-ghost text-2xl"><span className="text-orange-600">SA</span>Gadgets</a>
+
+   <Link to='/' className="btn btn-ghost text-xl lg:text-2xl">
+   <img src={icon} alt="icon_shop" className="w-16 " />
+
+   <span className="text-orange-600">SA</span>Gadgets</Link>
+   
   </div>
 
 

@@ -12,7 +12,7 @@ const Main = () => {
         <div>
         {!noHeaderFooter && <NavigationBar></NavigationBar>}
 
-          <div className="my-11">
+          <div className="container mx-auto my-11">
           <Outlet></Outlet>
           </div>
 

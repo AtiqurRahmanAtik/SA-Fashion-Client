@@ -113,7 +113,7 @@ const Home = () => {
 
 
     return (
-        <div>
+        <div className="bg-gray-300">
         
 
           {/* searching button*/}
@@ -188,7 +188,7 @@ const Home = () => {
       <h1 className="text-3xl font-bold text-center my-5">Discover Our Products  </h1>
 
         {/* map here all product */}
-        <div className="grid gap-3 my-9 grid-rows-1 md:grid-cols-2 lg:grid-cols-3 ">
+        <div className=" grid gap-3 my-9 grid-rows-1 md:grid-cols-2 lg:grid-cols-3 ">
             {
                 item.map((item)=> <Products key={item._id} item={item}></Products>)
             }
@@ -196,7 +196,7 @@ const Home = () => {
 
 
         {/* previous button  */}
-        <div className='flex justify-center mt-12'>
+        <div className='flex justify-center mt-12 '>
 
         <button disabled={currentPage === 1}
         onClick={()=> handlePaginationButton(currentPage -1)}
@@ -235,7 +235,7 @@ const Home = () => {
 
 
         {/* next button */}
-        <button disabled={currentPage === numberOfPages}
+        <button  disabled={currentPage === numberOfPages}
         onClick={()=> handlePaginationButton(currentPage + 1)}
         className='px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-green-400  rounded-md hover:bg-blue-500 disabled:hover:bg-gray-200 disabled:hover:text-gray-500 hover:text-white disabled:cursor-not-allowed disabled:text-gray-500'>
           <div className='flex items-center -mx-1'>
